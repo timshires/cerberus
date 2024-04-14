@@ -21,9 +21,9 @@ fig = plt.figure(figsize=(10,5))
 # get a list of all the files in this directory
 files = get_files('.', include=['plt'], times=[0.001, 0.002, 0.0301], tol=1e-2)
 N = len(files)
+files = filter(lambda x : x is not None, files)
 
 for i, f in enumerate(files):
-
     data = ReadBoxLib(f)
     t = data.time
         
@@ -36,8 +36,6 @@ for i, f in enumerate(files):
     yc, xc = np.meshgrid(xc[1], xc[0])
 
     # plot stuff
-
-
     ax = fig.add_subplot(1,N,i+1)
     pc = ax.pcolormesh(xn, yn, r)
     ax.contour(xc, yc, vf, [0.5], colors=['k'], linewidths=[0.5])

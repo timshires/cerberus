@@ -14,7 +14,7 @@ from matplotlib.image import NonUniformImage
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.collections import PatchCollection
 from matplotlib.patches import Rectangle
-
+import pdb
 
 # ==============================================================================
 # MAKE MOVIES
@@ -159,7 +159,7 @@ q["offset"] = [0.0, 0.0]
 q["xy_limits"] = [[-0.009, 0.0], [0.001, 0.01]]
 q["file_include"] = ["plt"]
 q["file_exclude"] = ["chk"]
-q["cores"] = 11
+q["cores"] = 1
 q["force_data"] = False
 q["force_frames"] = True
 q["only_frames"] = False

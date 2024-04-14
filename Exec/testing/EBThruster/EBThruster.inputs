@@ -1,0 +1,57 @@
+# hash commit
+# dc504b4d5ad20125de264d3cc9d3b8aea543bbe0
+#https://github.com/kyriakosTapinou/cerberus
+#amr.restart = # if you need to restart put the checkpoint file name in here #TODO 
+
+#======== AMREX ==========
+amrex.fpe_trap_invalid=1
+amrex.fpe_trap_zero=1
+fpe_trap_overflow=1
+amr.v = 0
+
+# ======== TIME ==========
+max_step  = 100000
+stop_time = 100 # depends on prblem 
+
+# ======== DOMAIN ==========
+geometry.is_periodic = 0 0 0  
+geometry.coord_sys   = 0  # 0 => cart, 1 => RZ  2=>spherical
+
+# lo. res.
+geometry.prob_lo     = 0.0 0.0  	 #TODO mesh bounds (low)
+geometry.prob_hi     = 4 1 		 #TODO mesh bounds (high)
+amr.n_cell           = 128 32 		 #TODO resolution 
+
+# ======== LOAD BALANCE ==========
+amr.loadbalance_with_workestimates = 1
+amr.loadbalance_level0_int = 10
+
+# ======== GRID ==========
+amr.max_level       = 2      # maximum level number allowed
+amr.ref_ratio       = 2 2 2  # refinement ratio
+amr.regrid_int      = 2 2 2  # how often to regrid
+amr.blocking_factor = 8      
+amr.max_grid_size   = 32     
+amr.n_error_buf     = 1 1 1  # number of buffer cells in error est
+amr.grid_eff        = 0.7    # what constitutes an efficient grid
+amr.subcycling_mode = Auto   # time sub-cycling (Auto, None, Manual, Optimal)
+
+# ======== OUTPUT ==========
+
+# CHECKPOINT FILES
+amr.checkpoint_files_output = 1
+amr.check_file              = Tims_adventures_PlasmaThruster.chk # root name of checkpoint file #TODO
+amr.check_int               = 1    		 # number of timesteps between checkpoints #TODO if your testing use this 
+amr.check_per               = 1e-1		 # TODO if you're running simulations e.g. t_f = 100, t_plot = 0.5, t_check = 10
+
+# PLOTFILES
+amr.plot_files_output = 1
+amr.plot_file         = PlasmaThruster.plt     # root name of plotfile
+amr.plot_int          = -1      # number of timesteps between plotfiles
+amr.plot_per          = 1e-0
+
+mfp.lua = "
+dofile('EBThruster.lua')
+"
+
+

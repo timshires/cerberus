@@ -8,7 +8,7 @@ INPUTS=*.inputs
 
 rm -r *plt* *chk* mov
 
-mpirun -n 8 ${EXE} ${INPUTS} 2>&1 | tee run_log.txt
+mpirun -np 10 ${EXE} ${INPUTS} 2>&1 | tee run_log.txt
 
 ../visit.sh .
 

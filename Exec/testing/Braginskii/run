@@ -8,7 +8,9 @@ INPUTS=BTRMI.inputs
 
 rm -r *chk* *plt*
 
-mpirun -n 1 --oversubscribe ${EXE} ${INPUTS} 2>&1 | tee run_log.txt
+mpirun -n 5 --oversubscribe ${EXE} ${INPUTS} 2>&1 | tee run_log.txt
+
+python visitFileSorter.py
 
 ../visit.sh .
 

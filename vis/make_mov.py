@@ -594,25 +594,24 @@ def make_all(Q):
     
     # set default options
     for q in Q:
-        items = {"normalize":"single",
-                 }
+        items = {"normalize":"single"}
 
         for item, value in items.items():
             if item not in q:
                 q[item] = value
 
         exclude = [
-        "framerate",
-        "normalize",
-        "cores",
-        "force_frames",
-        "only_frames",
-        "redo_streaks",
-        "dpi",
-        "mov_save",
-        "plot",
-        "name",
-    ]
+            "framerate",
+            "normalize",
+            "cores",
+            "force_frames",
+            "only_frames",
+            "redo_streaks",
+            "dpi",
+            "mov_save",
+            "plot",
+            "name",
+        ]
 
     for q in Q:
         print(q["files_dir"])

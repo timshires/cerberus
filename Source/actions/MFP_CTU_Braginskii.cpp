@@ -1489,7 +1489,7 @@ void BraginskiiCTU::hall_correction_viscosity(
 {
     BL_PROFILE("BraginskiiCTU::hall_correction_viscosity");
 
-    amrex::Abort("you should not be using this unless you know what you are doing")
+    // amrex::Abort("you should not be using this unless you know what you are doing")
 
         Print()
       << "hello eta2:\t" << eta2;

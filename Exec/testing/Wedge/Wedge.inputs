@@ -6,7 +6,7 @@ amr.v = 0
 
 # ======== TIME ==========
 max_step  = 1000000
-stop_time = 0.03
+stop_time = 0.005
 
 # ======== DOMAIN ==========
 geometry.is_periodic = 0 0 0
