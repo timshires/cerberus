@@ -12,4 +12,5 @@ mpirun -n 8 ${EXE} ${INPUTS} 2>&1 | tee run_log.txt
 
 ../visit.sh .
 
-#python3 check.py
+
+python3 check.py

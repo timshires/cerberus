@@ -10,17 +10,17 @@ fpe_trap_overflow=1
 amr.v = 0
 
 # ======== TIME ==========
-max_step  = 5000
-stop_time = 100 # depends on prblem 
+max_step  = 1000000
+stop_time = 0.1 #100 # depends on prblem 
 
 # ======== DOMAIN ==========
 geometry.is_periodic = 0 0 0  
 geometry.coord_sys   = 0  # 0 => cart, 1 => RZ  2=>spherical
 
 # lo. res.
-geometry.prob_lo     = 0.0 0.0  	 #TODO mesh bounds (low)
-geometry.prob_hi     = 4 2 		 #TODO mesh bounds (high)
-amr.n_cell           = 32 16 		 #TODO resolution 
+geometry.prob_lo     =  0.0 0.0 
+geometry.prob_hi     =  4.0  2.0
+amr.n_cell           =  32  16
 
 # ======== LOAD BALANCE ==========
 amr.loadbalance_with_workestimates = 1

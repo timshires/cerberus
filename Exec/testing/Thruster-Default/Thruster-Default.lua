@@ -9,7 +9,7 @@ ref_lightspeed = 299792458.0; --dimensional speed of light
 q_ref = 1.60217662e-19 -- Coulombs
 
 m_p = 1.6726219000e-27 -- Proton mass
-mfac = 1. --  1e17  --TODO problem specific for ionisation fraction or for stability? 
+mfac = 1 --  1e17  --TODO problem specific for ionisation fraction or for stability? 
 m_ref = mfac * m_p
 
 n_ref = 1.0e23
@@ -28,7 +28,7 @@ ref_temp = 1.2097998979e+06
 Larmor = 1.0e-2 --TODO google what these are/represent --TODO HW
 Debye  = 2.4e-6
 
-phi_mag = -0.001 -- target D_x nondim
+phi_mag = 1e-3 -- target D_x nondim
 A_mag   = 0 -- target B_z non-dim
 
 -- === SETTINGS ===
@@ -40,7 +40,7 @@ do_CTU          = 1
 -- === DEFINE STATES ===
 density       = 1.0
 mass_ion      = 1
-mass_electron = 0.01
+mass_electron = 0.014
 gam           = 5./3.
 pressure      = 0.5
 
@@ -86,7 +86,7 @@ function tracer(dat)
   end
 
   return t
-end
+end 
 
 function pressure(dat)
   x = dat['x']
@@ -223,7 +223,115 @@ actions = {
 
 -- === GEOMETRY ===
 --TODO put back in slowly once running 
+-- collection = {{{x_lo, x_hi},{y_lo,y_hi}}, ... }
+function make_rectangles(x,y,collection)
 
+  local d, d1, dx, dy, dx_, dy_
+
+  local coords = {x,y}
+
+  for i, v in ipairs(collection) do
+    dx = math.max(coords[1] - v[1][2], v[1][1] - coords[1])
+    dy = math.max(coords[2] - v[2][2], v[2][1] - coords[2])
+
+    dx_ = math.max(dx, 0.0)
+    dy_ = math.max(dy, 0.0)
+
+    d1 = math.sqrt(dx_*dx_ + dy_*dy_) + math.min(0.0, math.max(dx, dy))
+
+    if (i == 1) then
+      d = d1
+    else 
+      d = math.min(d, d1)
+    end
+  end
+
+  return d    
+end
+
+x_grid = {0.3,0.4}
+--  # establish end grid for ion engine, formed basically using block 1 and 2.
+function block1(x,y)
+  local rect = {
+    {x_grid,{0, 0.8}},
+  }
+  return make_rectangles(x,y,rect)
+end
+function block2(x,y)
+  local rect = {
+    {x_grid,{1.2, 2}},
+  }
+  return make_rectangles(x,y,rect)
+end
+ 
+function topwall(x,y)
+  local rect = {
+    {{0.0,4},{1.9,2}},
+  }
+  return make_rectangles(x,y,rect)
+end
+
+function bottomwall(x,y)
+  local rect = {
+    {{0.0,4},{0,0.1}},
+  }
+  return make_rectangles(x,y,rect)
+end
+
+embedded_boundaries = {
+  block1 = {
+    geom = block1,
+    bcs={
+      ion={
+        type='slip_wall' -- try omitting to see for non-interaction
+      },
+      electron={
+        type='slip_wall'
+      },
+    },
+    boolean_operation='and',
+    inside=0,
+  },
+  block2 = {
+    geom = block2,
+    bcs={
+      ion={
+        type='slip_wall'
+      },
+      electron={
+        type='slip_wall'
+      },
+    },
+    boolean_operation='and',
+    inside=0,
+  },
+  -- botwall = {
+  --   geom=bottomwall,
+  --   bcs={
+  --     ion={
+  --       type='slip_wall'
+  --     },
+  --     electron={
+  --       type='slip_wall'
+  --     },
+  --   },
+  --   boolean_operation='or',
+  --   inside=0,
+  -- },
+  -- topwall = {
+  --   geom=topwall,
+  --   bcs={
+  --     ion={
+  --       type='slip_wall'
+  --     },
+  --     electron={
+  --       type='slip_wall'
+  --     },
+  --   },
+  --   boolean_operation='or',
+  --   inside=0,
+  -- },
+}
 --TODO === EB put back in when deubg done ===
 
 -- === PLOTTING ===

@@ -1,4 +1,4 @@
-!/usr/bin/env bash
+#!/usr/bin/env bash
 
 (cd ../../../local && make -j8 DIM=2 USE_EB=TRUE AMREX_PARTICLES=FALSE)
 
@@ -8,7 +8,7 @@ INPUTS=*.inputs
 
 rm -r *plt* *chk*
 
-mpirun -n 10 ${EXE} ${INPUTS} 2>&1 | tee run_log.txt
+mpirun -n 1 ${EXE} ${INPUTS} 2>&1 | tee run_log.txt
 
 #../visit.sh .
 
