@@ -380,7 +380,9 @@ void MFP::update_ref()
     m_ref = lua["ref_mass"];
     T_ref = lua["ref_temp"];
     Real c_ref = lua["ref_lightspeed"].get_or(299792458.0);
-
+    Print() << "user ref temp input: " << T_ref << "\nuser ref lightspeed: " << c_ref << "\n" ; 
+    
+    
     Real c = lua["lightspeed"];
     beta = lua["beta"];
     skin_depth = lua["skin_depth"];
@@ -449,7 +451,7 @@ void MFP::update_ref()
             << "\n  n0_ref = " << std::scientific << n0 << "\n  t_ref = " << std::scientific
             << x_ref / u_ref << "\n\n  Electromagnetic\n  c_ref = " << std::scientific << c_ref
             << "\n  B_ref = " << std::scientific << B_ref << "\n  E_ref = " << std::scientific
-            << E_ref << "\n\n  NonDimensional c = " << std::scientific << c
+            << E_ref << "\n\n  NonDimensional c = " << std::scientific << lightspeed
             << "\n  NonDimensional beta = " << std::scientific << beta
             << "\n  NonDimensional skin_depth = " << std::scientific << skin_depth
             << "\n  NonDimensional Larmor = " << std::scientific << Larmor

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+(cd ../../local && make -j8 DIM=2 USE_EB=TRUE AMREX_PARTICLES=FALSE)
+
+EXE=../../../local/MFP.2d.gnu.MPI.EB.ex
+
+INPUTS=*.inputs
+
+RESULTS_DIR=grid_lvl_test-max
+
+#rm -r *plt* *chk*
+
+mkdir ${RESULTS_DIR}
+
+cp  {Ion-thruster.lua,Ion-thruster.inputs,run} ./${RESULTS_DIR}
+
+cd ${RESULTS_DIR}
+
+mpirun --use-hwthread-cpus ${EXE} ${INPUTS} 2>&1 | tee run_log.txt
+
+#mpirun --use-hwthread-cpus ${EXE} ${INPUTS} 2>&1 | tee run_log.txt # uses all threads
+
+
+#../visit.sh .
+
+# python3 check.py
+# python3 movie.py

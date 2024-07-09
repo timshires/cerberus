@@ -20,7 +20,7 @@ from matplotlib.patches import Rectangle
 
 def get_velocity_magnitude(ds, c):
     x, u = ds.get("x_vel-electron")
-    x, v = ds.get("y_vel-electron", grid='node')
+    x, v = ds.get("y_vel-electron",grid = 'node')
 
     return {"x":x[0], "y":x[1], "value":np.sqrt(u**2 + v**2)}
 
@@ -28,24 +28,34 @@ def get_alpha(ds, c):
     x, a = ds.get("alpha_0-electron", grid='node')
     return {"x":x[0], "y":x[1], "value":a}
 
-"""
+# 
 def get_vfrac(ds, c):
     x, v = ds.get("vfrac-electron")
     return {"x":x[0], "y":x[1], "value":v}
 
-def get_particles(ds, c):
-    idat, rdat =  ds.get_particles('tracer')
-    return {"i":idat, "r":rdat}
-"""
+# def get_particles(ds, c):
+#     idat, rdat =  ds.get_particles('tracer')
+#     return {"i":idat, "r":rdat}
+# 
 
-def get_boxes(ds, c):
-    boxes = ds.get_boxes()
-    return {"boxes":boxes}
+# def get_boxes(ds, c):
+#     boxes = ds.get_boxes()
+#     return {"boxes":boxes}
 
 def plot(frame, data, output_name):
-    xc = data["vel_mag"]["x"]
-    yc = data["vel_mag"]["y"]
-    v = data["vel_mag"]["value"]
+    xc = data["vfrac-electron"]["x"]
+    yc = data["vfrac-electron"]["y"]
+    v = data["vfrac-electron"]["value"]
+    print('no crash 0')
+
+    # boxes = data["boxes"]["boxes"][()]
+
+    vmin = frame["vfrac-electron"]["min"]
+    vmax = frame["vfrac-electron"]["max"]
+
+
+    limits = frame["q"]["xy_limits"]
+
 
     #xc = data["vfrac-air"]["x"]
     #yc = data["vfrac-air"]["y"]
@@ -54,15 +64,14 @@ def plot(frame, data, output_name):
     
     # xn = data["alpha-air"]["x"]
     # yn = data["alpha-air"]["y"]
-    #a = data["alpha-air"]["value"]
+    a = data["alpha-air"]["value"]
     #vmin = frame["alpha-air"]["min"]
     #vmax = frame["alpha-air"]["max"]
 
-    limits = frame["q"]["xy_limits"]
 
     # particles
-    #px, py, pi = get_particle_trajectories(data["particles-air"], limits)
-
+    # px, py, pi = get_particle_trajectories(data["particles-air"], limits)
+    print('no crash 1')
     fig = plt.figure()
     ax = fig.add_subplot(111)
 
@@ -71,9 +80,12 @@ def plot(frame, data, output_name):
     norm = mpl.colors.Normalize(vmin=vmin, vmax=vmax)
     im = NonUniformImage(ax, interpolation='bilinear', extent=(limits[0][0], limits[1][0], limits[0][1], limits[1][1]),
         norm=norm)
+    print('no crash 2')
 
+    a = data["alpha_0-electron"]["value"]
     im.set_data(xc, yc, np.transpose(a))
     ax.images.append(im)
+    print('no crash 3')
 
     # ax.pcolormesh(xn, yn, a, vmin=vmin, vmax=vmax)
 
@@ -82,9 +94,9 @@ def plot(frame, data, output_name):
     for line in cs.allsegs[0]:
         plt.fill(line[:,0], line[:,1])
 
-    l = 10 #streak length
-    ax.plot(px[-l::], py[-l::], "k-", lw=0.5, alpha=0.5)
-    ax.plot(px[-1], py[-1], "ko", ms=0.5, alpha=0.5)
+    # l = 10 #streak length
+    # ax.plot(px[-l::], py[-l::], "k-", lw=0.5, alpha=0.5)
+    # ax.plot(px[-1], py[-1], "ko", ms=0.5, alpha=0.5)
 
     # plot boxes
     # grid = []
@@ -121,9 +133,9 @@ q["level"] = -1
 # all the data we need to retrieve
 q["get"] = [
 
-    {"func":get_velocity_magnitude, "tag":"vel_mag"},
-    #{"func":get_alpha, "tag":"alpha-air"},
-    #{"func":get_vfrac, "tag":"vfrac-air"},
+    # {"func":get_velocity_magnitude, "tag":"vel_mag"},
+    {"func":get_alpha, "tag":"alpha_0-electron"},
+    {"func":get_vfrac, "tag":"vfrac-electron"},
     #{"func":get_particles, "tag":"particles-air", "get_streak":True},
     # {"func":get_boxes, "tag":"boxes"},
 ]

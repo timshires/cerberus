@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+(cd ../../local && make -j8 DIM=2 USE_EB=TRUE AMREX_PARTICLES=FALSE)
+
+EXE=../../local/MFP.2d.gnu.MPI.EB.ex
+
+INPUTS=*.inputs
+
+rm -r *plt* *chk*
+
+mpirun -n 10 ${EXE} ${INPUTS} 2>&1 | tee run_log.txt
+
+# mpirun --use-hwthread-cpus ${EXE} ${INPUTS} 2>&1 | tee run_log.txt # uses all threads
+
+
+#../visit.sh .
+
+# python3 check.py
+# python3 movie.py
